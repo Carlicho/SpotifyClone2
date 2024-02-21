@@ -1,3 +1,6 @@
 video  https://www.youtube.com/watch?v=ajVcLGEw8Xw&t=12s
 
-time:  8:02
+time:  50:40
+
+Investigar: Reducer-ReducerCases-dispatch-
+Que funcion cumple Type en el dispatch?
