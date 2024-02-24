@@ -1,6 +1,8 @@
 video  https://www.youtube.com/watch?v=ajVcLGEw8Xw&t=12s
 
-time:  50:40
+time:  1,12,03
 
 Investigar: Reducer-ReducerCases-dispatch-
 Que funcion cumple Type en el dispatch?
+
+porque a veces hay que mapear con {} es decir tracks.map(({track})=>{})

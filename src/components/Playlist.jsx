@@ -3,13 +3,13 @@ import { useEffect } from "react"
 import { useStateProvider } from "../utils/StateProvider"
 import axios from "axios"
 import { reducerCases } from "../utils/Constants";
+import styled from "styled-components";
     
 export default function Playlist() {
             //importante poner token y dispatch entre [{}] pero porque?
-     const [{ token, playlist }, dispatch ] = useStateProvider(); // Llama a la función useStateProvider
-    
-    useEffect(()=>{
 
+     const [{ token, playlists }, dispatch ] = useStateProvider(); // Llama a la función useStateProvider
+    useEffect(()=>{
         const getPlaylistData = async () => {
                 const response = await axios.get(
                     'https://api.spotify.com/v1/me/playlists',
@@ -20,22 +20,63 @@ export default function Playlist() {
                     },
                 }
                 )
-                console.log(response)
+                const {items} = response.data
+                const playlists = items.map(({name, id})=>{
+                    return {name,id};
+            } );
+           dispatch({type: reducerCases.SET_PLAYLISTS,playlists})//El error estaba en el dispatch, la variable playlists era llamada como playlist y esto tenia como resultado que llamaba a una funcion que nunca fue declarada
+            // por lo que dispatch lo que hace es actualizar el estado global por lo que entiendo
                
 
         }
-        getPlaylistData();
-    }, [token, dispatch]) // Asegúrate de incluir token y dispatch en la matriz de dependencias de useEffect
+        getPlaylistData()
+    }, [token, dispatch]) 
 
   return (
-    <div>
-            <ul>
-                {playlist && playlist.map(({ name, id }) => (
-                    <li key={id}>{name}</li>
-                ))}
-            </ul>
-        </div>
+    <Container>
+        <ul>
+            {playlists.map(({name,id})=>{
+                return(
+                    <li key={id}>
+                        {name}
+                    </li>
+                )
+            })}
+        </ul>
+        </Container>
   )
 }
 
-// FALTA RESOLVER PORQUE LA PLAYLIST ME LA DEVUELVE VACIA
+const Container = styled.div`
+height: 100%;
+overflow: hidden;
+    ul {
+        list-style-type:none;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        height: 52vh;
+        max-height: 100%;
+        overflow: auto;
+        &::-webkit-scrollbar {
+            width: 0.7rem;
+        &-thumb{
+            background-color: rgba(255,255,255,0.6);
+        }
+        }
+
+        li{
+            display: flex;
+            gap: 1rem;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+            &hover{
+                color: white;
+            }
+        }
+    }
+
+`
+
+
