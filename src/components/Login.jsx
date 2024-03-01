@@ -6,7 +6,7 @@ export default function Login() {
 
   const handleClick = () =>{
     const clientId = "324883bfa5cc4345b4616712c71ba926"
-    const redirectUrl = "http://localhost:3000/"
+    const redirectUrl = "https://main--spotcjlicho.netlify.app/"
     const apiUrl = "https://accounts.spotify.com/authorize"
     var scope = [
       "user-read-email",
